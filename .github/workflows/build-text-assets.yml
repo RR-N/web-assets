@@ -1,0 +1,36 @@
+name: Build text-assets.json
+
+on:
+  push:
+    branches: [ main ]     # build on every commit to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Generate text-assets.json
+        run: node scripts/build-text-assets.mjs
+
+      # --- commit the new JSON back into the repo ---
+      - name: Commit & push JSON
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add text-assets.json
+          git diff --cached --quiet || git commit -m "chore: rebuild text-assets.json"
+          git push
+
+      # --- gh-pages alternative ---
+      # - name: Deploy to gh-pages
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: gh-pages
+      #     publish_dir: .
