@@ -1,56 +1,56 @@
 {
 	"bird": [
 		{
-			"url": "https://www.youtube.com/watch?v=lcWA2wEFkeY",
-			"duration": "22s"
+			"url": "https://drive.google.com/file/d/1FIGgVF2PlZoUdGsulxPtNpwrXuztAffO/view?usp=sharing",
+			"duration": "22"
 		},
 		{
-			"url": "https://www.youtube.com/watch?v=ANRzhHe3Ik4",
-			"duration": "9s"
+			"url": "https://drive.google.com/file/d/150JfNFxaSZVTtWRbevcQo89cMVPXL1MC/view?usp=sharing",
+			"duration": "9"
 		},
 	],
 	"cat": [
 		{
-			"url": "https://www.youtube.com/watch?v=PSWIJcuj9vY",
-			"duration": "3m9s"
+			"url": "https://drive.google.com/file/d/15nAvTin6Bl8VVtJChHAMYwLU9CkQLU1q/view?usp=sharing",
+			"duration": "189"
 		},
 		{
-			"url": "https://www.youtube.com/watch?v=MHXcf93LKm8",
-			"duration": "59s"
+			"url": "https://drive.google.com/file/d/13q9-o-9SDXMjKLMhTj1ODwxuXn2BTRF3/view?usp=sharing",
+			"duration": "59"
 		},
 	],
 	"kiwi": [
 		{
-			"url": "https://www.youtube.com/watch?v=qh8VmhR8NPs",
-			"duration": "1m58s"
+			"url": "https://drive.google.com/file/d/1aZVmyspI00bQnN9aIab4VOAN25cGZCgm/view?usp=sharing",
+			"duration": "118"
 		},
 		{
-			"url": "https://www.youtube.com/watch?v=TJ73p2ra3DI",
-			"duration": "13s"
+			"url": "https://drive.google.com/file/d/1F9ufnuqV__O6eaV2tHcYwi8X8D3OrwQz/view?usp=sharing",
+			"duration": "13"
 		},
 	],
 	"octopus": [
 		{
-			"url": "https://www.youtube.com/watch?v=sjco86ekIlQ",
-			"duration": "2m20s"
+			"url": "https://drive.google.com/file/d/1DqJ7bH_cWcuRtYYDMm2ctn8PgAAibzJw/view?usp=sharing",
+			"duration": "140"
 		},
 		{
-			"url": "https://youtube.com/shorts/RDrnzu0z_sA",
-			"duration": "29s"
+			"url": "https://drive.google.com/file/d/1nSUCpVDMVlS37yw-YvVPi0-OqxZ4jYkl/view?usp=sharing",
+			"duration": "29"
 		},
 	],
 	"turtle": [
 		{
-			"url": "https://www.youtube.com/watch?v=vJMP7RBsoms",
-			"duration": "5m1s"
+			"url": "https://drive.google.com/file/d/1wTjcIOE3V6l6n6c2DiZ6ON0G60uvJ9n1/view?usp=sharing",
+			"duration": "301"
 		},
 		{
-			"url": "https://www.youtube.com/watch?v=ZivIAhxzFyk",
-			"duration": "2m13s"
+			"url": "https://drive.google.com/file/d/1f16pgtAK1TG13nlTzVDozvfuhEf9zxtW/view?usp=sharing",
+			"duration": "133"
 		},
 		{
-			"url": "https://streamable.com/x1z9rn",
-			"duration": "3m10s"
+			"url": "https://drive.google.com/file/d/1OdmHI59kKyeY-9qMN8T0NqvZK_fTHJkn/view?usp=sharing",
+			"duration": "190"
 		},
 	]
 }
