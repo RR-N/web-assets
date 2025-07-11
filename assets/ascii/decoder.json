@@ -1,21 +1,56 @@
 {
 	"bird": [
-		"https://www.youtube.com/watch?v=lcWA2wEFkeY",
-		"https://www.youtube.com/watch?v=ANRzhHe3Ik4"
+		{
+			"url": "https://www.youtube.com/watch?v=lcWA2wEFkeY",
+			"duration": "22s"
+		},
+		{
+			"url": "https://www.youtube.com/watch?v=ANRzhHe3Ik4",
+			"duration": "9s"
+		},
 	],
 	"cat": [
-		"https://www.youtube.com/watch?v=PSWIJcuj9vY",
-		"https://www.youtube.com/watch?v=MHXcf93LKm8"
+		{
+			"url": "https://www.youtube.com/watch?v=PSWIJcuj9vY",
+			"duration": "3m9s"
+		},
+		{
+			"url": "https://www.youtube.com/watch?v=MHXcf93LKm8",
+			"duration": "59s"
+		},
 	],
 	"kiwi": [
-		"https://www.youtube.com/watch?v=qh8VmhR8NPs",
-		"https://www.youtube.com/watch?v=TJ73p2ra3DI"
+		{
+			"url": "https://www.youtube.com/watch?v=qh8VmhR8NPs",
+			"duration": "1m58s"
+		},
+		{
+			"url": "https://www.youtube.com/watch?v=TJ73p2ra3DI",
+			"duration": "13s"
+		},
 	],
 	"octopus": [
-		"https://www.youtube.com/watch?v=sjco86ekIlQ"
+		{
+			"url": "https://www.youtube.com/watch?v=sjco86ekIlQ",
+			"duration": "2m20s"
+		},
+		{
+			"url": "https://youtube.com/shorts/RDrnzu0z_sA",
+			"duration": "29s"
+		},
 	],
 	"turtle": [
-		"https://www.youtube.com/watch?v=vJMP7RBsoms",
-		"https://www.youtube.com/watch?v=ZivIAhxzFyk"
+		{
+			"url": "https://www.youtube.com/watch?v=vJMP7RBsoms",
+			"duration": "5m1s"
+		},
+		{
+			"url": "https://www.youtube.com/watch?v=ZivIAhxzFyk",
+			"duration": "2m13s"
+		},
+		{
+			"url": "https://streamable.com/x1z9rn",
+			"duration": "3m10s"
+		},
 	]
 }
