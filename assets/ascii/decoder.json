@@ -1,0 +1,21 @@
+{
+	"bird": [
+		"https://www.youtube.com/watch?v=lcWA2wEFkeY",
+		"https://www.youtube.com/watch?v=ANRzhHe3Ik4"
+	],
+	"cat": [
+		"https://www.youtube.com/watch?v=PSWIJcuj9vY",
+		"https://www.youtube.com/watch?v=MHXcf93LKm8"
+	],
+	"kiwi": [
+		"https://www.youtube.com/watch?v=qh8VmhR8NPs",
+		"https://www.youtube.com/watch?v=TJ73p2ra3DI"
+	],
+	"octopus": [
+		"https://www.youtube.com/watch?v=sjco86ekIlQ"
+	],
+	"turtle": [
+		"https://www.youtube.com/watch?v=vJMP7RBsoms",
+		"https://www.youtube.com/watch?v=ZivIAhxzFyk"
+	]
+}
