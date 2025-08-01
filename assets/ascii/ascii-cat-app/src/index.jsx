@@ -1,5 +1,5 @@
 /* src/index.jsx – final “just-work” bootstrap */
-console.log('ASCII-cat bundle build 12 (auto-container)');
+console.log('ASCII-cat bundle build 13');
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
