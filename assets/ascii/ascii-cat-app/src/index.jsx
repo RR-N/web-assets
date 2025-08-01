@@ -1,22 +1,27 @@
-console.log('ASCII-cat bundle version 7'); 
-
-setInterval(() => {
-  const el = document.getElementById('react-target');
-  if (el) {
-    const r = el.getBoundingClientRect();
-    console.log(`react-target size: ${r.width}×${r.height}`);
-  }
-}, 1000);
-
+/* src/index.jsx */
+console.log('ASCII-cat bundle version 10');
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AsciiCat from './AsciiCat';
 
-function ready(){
-  const el=document.getElementById('react-target');
-  if(el)createRoot(el).render(<AsciiCat/>);
+function boot(el) {
+  createRoot(el).render(<AsciiCat />);
 }
-document.readyState==='loading'
-  ? document.addEventListener('DOMContentLoaded',ready)
-  : ready();
+
+function tryMount() {
+  const el = document.getElementById('react-target');
+  if (el) {
+    boot(el);
+    return true;
+  }
+  return false;
+}
+
+if (!tryMount()) {
+  /* Wait until Webflow actually injects the Embed */
+  const obs = new MutationObserver(() => {
+    if (tryMount()) obs.disconnect();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+}
