@@ -1,3 +1,5 @@
+console.log('ASCII-cat bundle version 7'); 
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AsciiCat from './AsciiCat';
