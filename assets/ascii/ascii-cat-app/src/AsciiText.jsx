@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
-/* ────────── GLSL shaders ────────── */
+/* ─── GLSL shaders ─── */
 const vertexShader = `
 varying vec2 vUv;
 uniform float uTime;
@@ -16,7 +16,7 @@ void main() {
     p.y += cos(t + position.z) * 0.15;
     p.z += sin(t + position.x);
   }
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(p,1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
 }`;
 
 const fragmentShader = `
@@ -26,206 +26,214 @@ uniform sampler2D uTexture;
 void main() {
   float t = uTime;
   vec2 pos = vUv;
-  float r = texture2D(uTexture, pos + cos(t*2.-t+pos.x)*.01).r;
-  float g = texture2D(uTexture, pos + tan(t*.5+pos.x-t)*.01).g;
-  float b = texture2D(uTexture, pos - cos(t*2.+t+pos.y)*.01).b;
+  float r = texture2D(uTexture, pos + cos(t * 2. - t + pos.x) * .01).r;
+  float g = texture2D(uTexture, pos + tan(t * .5 + pos.x - t) * .01).g;
+  float b = texture2D(uTexture, pos - cos(t * 2. + t + pos.y) * .01).b;
   float a = texture2D(uTexture, pos).a;
-  gl_FragColor = vec4(r,g,b,a);
+  gl_FragColor = vec4(r, g, b, a);
 }`;
 
-/* helper */
-Math.map = (n,a,b,c,d)=>((n-a)/(b-a))*(d-c)+c;
-
-/* ────────── AsciiFilter ────────── */
+/* ─── AsciiFilter ─── */
 class AsciiFilter {
-  constructor(renderer,{
-    fontSize = 12,
-    fontFamily = "'Courier New', monospace'",
-    invert = true,
-    charset
-  } = {}) {
+  constructor(
+    renderer,
+    {
+      fontSize   = 12,
+      fontFamily = "'Courier New', monospace",
+      invert     = true,
+      charset
+    } = {}
+  ) {
     this.renderer = renderer;
 
     this.canvas = document.createElement('canvas');
     this.ctx    = this.canvas.getContext('2d');
     this.pre    = document.createElement('pre');
     this.dom    = document.createElement('div');
-    Object.assign(this.dom.style,{position:'absolute',inset:0});
-    this.dom.append(this.pre,this.canvas);
+    Object.assign(this.dom.style, { position: 'absolute', inset: 0 });
+    this.dom.append(this.pre, this.canvas);
 
     this.fontSize   = fontSize;
     this.fontFamily = fontFamily;
     this.charset =
       charset ??
-      ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
+      " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
     this.invert = invert;
   }
 
-  setSize(w,h) {
-    this.canvas.width  = Math.floor(w/(this.fontSize*0.6));
-    this.canvas.height = Math.floor(h/ this.fontSize);
+  setSize(w, h) {
+    this.canvas.width  = Math.floor(w / (this.fontSize * 0.6));
+    this.canvas.height = Math.floor(h /  this.fontSize);
     this.ctx.font = `${this.fontSize}px ${this.fontFamily}`;
-    Object.assign(this.pre.style,{
-      margin:0,padding:0,lineHeight:'1em',
-      fontFamily:this.fontFamily,fontSize:`${this.fontSize}px`,
-      position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',
-      mixBlendMode:'difference'
+
+    Object.assign(this.pre.style, {
+      margin: 0, padding: 0, lineHeight: '1em',
+      fontFamily: this.fontFamily,
+      fontSize: `${this.fontSize}px`,
+      position: 'absolute',
+      left: '50%', top: '50%',
+      transform: 'translate(-50%,-50%)',
+      mixBlendMode: 'difference'
     });
   }
 
-  render(scene,camera) {
-    /* Render Three scene to its canvas */
-    this.renderer.render(scene,camera);
+  render(scene, camera) {
+    this.renderer.render(scene, camera);
 
-    /* Bail if Three’s canvas or ASCII canvas is 0 × 0 */
     const gl = this.renderer.domElement;
     const w  = this.canvas.width;
     const h  = this.canvas.height;
-    if (gl.width === 0 || gl.height === 0 || w === 0 || h === 0) return;
+    const gw = gl.clientWidth  || gl.width;
+    const gh = gl.clientHeight || gl.height;
+    if (!w || !h || !gw || !gh) return;          // skip if either canvas is 0
 
-    /* Safely copy pixels; browsers may still throw if gl is volatile */
     try {
-      this.ctx.drawImage(gl,0,0,w,h);
-    } catch (e) {
-      console.warn('AsciiFilter skipped frame (drawImage failed)');
-      return;
-    }
+      this.ctx.drawImage(gl, 0, 0, w, h);
+    } catch { return; }                          // drawImage failed, skip frame
 
-    /* Safely asciify */
-    let img;
+    let data;
     try {
-      img = this.ctx.getImageData(0,0,w,h).data;
-    } catch (e) {
-      console.warn('AsciiFilter skipped frame (getImageData failed)');
-      return;
-    }
+      data = this.ctx.getImageData(0, 0, w, h).data;
+    } catch { return; }                          // getImageData failed, skip frame
 
-    let out=''; const len=img.length;
-    for (let i=0;i<len;i+=4){
-      const idx=i/4, col=idx%w;
-      const gray=(0.3*img[i]+0.6*img[i+1]+0.1*img[i+2])/255;
-      const ci=Math.floor((this.invert?gray:1-gray)*(this.charset.length-1));
-      out += this.charset[ci];
-      if (col === w-1) out += '\n';
+    let ascii = '';
+    for (let i = 0, len = data.length; i < len; i += 4) {
+      const idx  = i / 4;
+      const col  = idx % w;
+      const gray = (0.3 * data[i] + 0.6 * data[i+1] + 0.1 * data[i+2]) / 255;
+      const cIdx = Math.floor((this.invert ? gray : 1 - gray) * (this.charset.length - 1));
+      ascii += this.charset[cIdx];
+      if (col === w - 1) ascii += '\n';
     }
-    this.pre.textContent = out;
+    this.pre.textContent = ascii;
   }
 }
 
-/* ────────── CanvasTxt ────────── */
+/* ─── CanvasTxt ─── */
 class CanvasTxt {
-  constructor(txt,{fontSize=200,color='#fdf9f3',fontFamily='IBM Plex Mono'}={}){
-    this.txt=txt; this.fontSize=fontSize; this.color=color; this.fontFamily=fontFamily;
-    this.canvas=document.createElement('canvas'); this.ctx=this.canvas.getContext('2d');
-    this.font=`${this.fontSize}px ${this.fontFamily}`; this.resize();
+  constructor(txt, { fontSize = 200, color = '#fdf9f3', fontFamily = 'IBM Plex Mono' } = {}) {
+    this.txt = txt;
+    this.fontSize = fontSize;
+    this.color = color;
+    this.fontFamily = fontFamily;
+
+    this.canvas = document.createElement('canvas');
+    this.ctx    = this.canvas.getContext('2d');
+    this.font   = `${this.fontSize}px ${this.fontFamily}`;
+    this.resize();
   }
-  resize(){
-    this.ctx.font=this.font;
-    const m=this.ctx.measureText(this.txt);
-    this.canvas.width=m.width+20; this.canvas.height=this.fontSize+20;
+  resize() {
+    this.ctx.font = this.font;
+    const m = this.ctx.measureText(this.txt);
+    this.canvas.width  = m.width + 20;
+    this.canvas.height = this.fontSize + 20;
   }
   render() {
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-    this.ctx.fillStyle=this.color; this.ctx.font=this.font;
-    this.ctx.fillText(this.txt,10,this.fontSize);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = this.color;
+    this.ctx.font      = this.font;
+    this.ctx.fillText(this.txt, 10, this.fontSize);
   }
-  get texture(){ return this.canvas; }
+  get texture() { return this.canvas; }
 }
 
-/* ────────── CanvAscii ────────── */
+/* ─── CanvAscii ─── */
 class CanvAscii {
-  constructor(params,el,w,h){
-    Object.assign(this,params);
+  constructor(params, el, w, h) {
+    Object.assign(this, params);
     this.el = el;
 
+    /* scene */
     this.scene  = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(45,w/h,1,1000);
+    this.camera = new THREE.PerspectiveCamera(45, w / h, 1, 1000);
     this.camera.position.z = 30;
 
-    this.txt  = new CanvasTxt(this.text,{fontSize:this.textFontSize,color:this.textColor});
+    /* text texture */
+    this.txt = new CanvasTxt(this.text, { fontSize: this.textFontSize, color: this.textColor });
     this.txt.render();
-    this.tex  = new THREE.CanvasTexture(this.txt.texture);
+    this.tex = new THREE.CanvasTexture(this.txt.texture);
     this.tex.minFilter = THREE.NearestFilter;
 
     const aspect = this.txt.canvas.width / this.txt.canvas.height;
-    const geo = new THREE.PlaneGeometry(this.planeBaseHeight*aspect,this.planeBaseHeight,36,36);
-    const mat = new THREE.ShaderMaterial({
-      vertexShader, fragmentShader, transparent:true,
-      uniforms:{
-        uTime:{value:0},
-        uTexture:{value:this.tex},
-        uEnableWaves:{value:this.enableWaves?1:0}
+    const geo    = new THREE.PlaneGeometry(this.planeBaseHeight * aspect, this.planeBaseHeight, 36, 36);
+    const mat    = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      uniforms: {
+        uTime:        { value: 0 },
+        uTexture:     { value: this.tex },
+        uEnableWaves: { value: this.enableWaves ? 1 : 0 }
       }
     });
-    this.mesh = new THREE.Mesh(geo,mat);
+    this.mesh = new THREE.Mesh(geo, mat);
     this.scene.add(this.mesh);
 
-    this.renderer = new THREE.WebGLRenderer({alpha:true,antialias:false});
+    /* renderer + filter */
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
     this.renderer.setPixelRatio(1);
-
-    this.filter = new AsciiFilter(this.renderer,{fontSize:this.asciiFontSize});
+    this.filter = new AsciiFilter(this.renderer, { fontSize: this.asciiFontSize });
     el.appendChild(this.filter.dom);
 
-    this.setSize(w,h);
+    this.setSize(w, h);
     this.animate();
   }
 
-  setSize(w,h){
-    this.camera.aspect=w/h; this.camera.updateProjectionMatrix();
-    this.filter.setSize(w,h);
+  setSize(w, h) {
+    this.camera.aspect = w / h;
+    this.camera.updateProjectionMatrix();
+    this.filter.setSize(w, h);
   }
 
   animate = () => {
     const loop = () => {
       this.frame = requestAnimationFrame(loop);
 
-      /* Skip if container collapsed */
-      const {width:w,height:h}=this.el.getBoundingClientRect();
-      if (!w || !h) return;
+      const { width: w, height: h } = this.el.getBoundingClientRect();
+      if (!w || !h) return;                       // container collapsed
 
-      this.txt.render(); this.tex.needsUpdate = true;
-      this.mesh.material.uniforms.uTime.value = Math.sin(Date.now()*0.001);
-      this.filter.render(this.scene,this.camera);
+      this.txt.render();
+      this.tex.needsUpdate = true;
+      this.mesh.material.uniforms.uTime.value = Math.sin(Date.now() * 0.001);
+      this.filter.render(this.scene, this.camera);
     };
     loop();
   };
-
-  dispose(){ cancelAnimationFrame(this.frame); }
+  dispose() { cancelAnimationFrame(this.frame); }
 }
 
-/* ────────── React wrapper ────────── */
+/* ─── React wrapper ─── */
 export default function AsciiText({
-  text='Hello!',
-  asciiFontSize=8,
-  textFontSize=200,
-  textColor='#fdf9f3',
-  planeBaseHeight=8,
-  enableWaves=true
-}){
-  const ref=useRef(null),inst=useRef(null);
+  text           = 'Hello!',
+  asciiFontSize  = 8,
+  textFontSize   = 200,
+  textColor      = '#fdf9f3',
+  planeBaseHeight = 8,
+  enableWaves    = true
+}) {
+  const ref  = useRef(null);
+  const inst = useRef(null);
 
-  useEffect(()=>{
-    const el = ref.current;
-
-    const build = (w,h) => (
+  useEffect(() => {
+    const el   = ref.current;
+    const make = (w, h) => (
       inst.current = new CanvAscii(
-        {text,asciiFontSize,textFontSize,textColor,planeBaseHeight,enableWaves},
-        el,w,h
+        { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
+        el, w, h
       ),
       () => inst.current.dispose()
     );
 
-    /* If element already sized, build immediately */
     const rect = el.getBoundingClientRect();
-    if (rect.width && rect.height) return build(rect.width,rect.height);
+    if (rect.width && rect.height) return make(rect.width, rect.height);
 
-    /* Otherwise wait for first non-zero size */
-    const ro = new ResizeObserver(([e])=>{
-      const {width:w,height:h}=e.contentRect;
-      if (w && h) { ro.disconnect(); build(w,h); }
+    const ro = new ResizeObserver(([e]) => {
+      const { width: w, height: h } = e.contentRect;
+      if (w && h) { ro.disconnect(); make(w, h); }
     });
-    ro.observe(el); return () => ro.disconnect();
-  },[text,asciiFontSize,textFontSize,textColor,planeBaseHeight,enableWaves]);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves]);
 
-  return <div ref={ref} style={{position:'absolute',inset:0}} />;
+  return <div ref={ref} style={{ position: 'absolute', inset: 0 }} />;
 }
