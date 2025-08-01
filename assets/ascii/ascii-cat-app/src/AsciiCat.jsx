@@ -1,80 +1,96 @@
-import React, { useState, useEffect, useRef } from 'react';
-import AsciiText from './AsciiText';
+/* src/AsciiCat.jsx – Webflow-safe ASCII cat */
+import React, { useEffect, useRef, useState } from 'react';
 
-const IDS = [
-  '9D2-iu9Ms-A','11mqSLKps7s','ufnhwRwzACo','qh8VmhR8NPs',
-  '55jy4jqWEVo','gnEy-4zjYQI','vD8jLGGQeAI','MsYnCKIDg4s',
-  '7TCIul9eP50','OwerV0bpXIk','po1f3tD-d7g'
+const FRAMES_RIGHT = [
+` /\\_/\\
+(  o.o)
+~>  ^<  `,
+` /\\_/\\
+(  OwO)
+~>  ^<  `
 ];
 
-const STEPS = [
-  ' /\\_/\\\n( o.o )\n > ^ <',
-  ' /\\_/\\\n( OwO )\n > ^ <'
+const FRAMES_LEFT = [
+` /\\_/\\
+(o.o  )
+ >^  <~`,
+` /\\_/\\
+(OwO  )
+ >^  <~`
 ];
-const WAIT = ' /\\_/\\\n( -.- )\n > ^ <';
 
-export default function AsciiCat () {
-  const box = useRef(null);
-  const [step, setStep] = useState(0);
-  const [dir, setDir] = useState(1);
-  const [x, setX] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const [vid, setVid] = useState(null);
+const FRAME_WAIT = ` /\\_/\\
+( -.- )
+ > ^ < `;
 
-  /* walk */
+const YT_IDS = [
+  '9D2-iu9Ms-A','11mqSLKps7s','ufnhwRwzACo','qh8VmhR8NPs','55jy4jqWEVo',
+  'gnEy-4zjYQI','vD8jLGGQeAI','MsYnCKIDg4s','shorts/7TCIul9eP50',
+  'shorts/OwerV0bpXIk','shorts/po1f3tD-d7g'
+];
+
+export default function AsciiCat() {
+  const codeRef = useRef(null);
+  const [dir, setDir] = useState(1);        // 1 → right, -1 → left
+  const [step, setStep] = useState(0);      // 0/1 alternate foot
+  const [x, setX] = useState(0);            // px offset
+  const [videoId, setVideoId] = useState(null);
+
+  /* animation loop */
   useEffect(() => {
-    if (!playing) return;
-    const t = setInterval(() => {
-      setStep(s => (s + 1) % STEPS.length);
+    const tick = () => {
+      setStep(s => 1 - s);
       setX(px => {
-        const max = (box.current.offsetWidth || 300) - 160;
-        const nx = px + dir * 4;
-        if (nx <= 0 || nx >= max) setDir(d => -d);
-        return Math.max(0, Math.min(nx, max));
+        const next = px + dir * 6;          // speed ← adjust here
+        if (next > 360) { setDir(-1); return 360; }
+        if (next < 0)   { setDir(1);  return 0;   }
+        return next;
       });
-    }, 120);
-    return () => clearInterval(t);
-  }, [playing, dir]);
+    };
+    const id = setInterval(tick, 1000);     // one step per second
+    return () => clearInterval(id);
+  }, [dir]);
 
-  /* click → pause + video */
-  const click = () => {
-    setPlaying(false);
-    setStep(undefined);     // show WAIT frame
-    const id = IDS[Math.random() * IDS.length | 0];
-    setTimeout(() => setVid(id), 500);
-  };
-  const resume = () => setPlaying(true);
+  /* click handler: show / replace YouTube iframe */
+  function handleClick() {
+    setVideoId(prev => {
+      const pick = () => YT_IDS[Math.floor(Math.random()*YT_IDS.length)];
+      return prev ? pick() : pick();        // always replace
+    });
+  }
 
-  const frame = step === undefined ? WAIT : STEPS[step];
-
+  /* render */
+  const frames = dir === 1 ? FRAMES_RIGHT : FRAMES_LEFT;
+  const art = frames[step];
   return (
-    <div
-      ref={box}
-      onClick={click}
-      style={{ position: 'relative', width: '100%', minHeight: '260px', cursor: 'pointer' }}
-    >
-      <div style={{ position: 'absolute', transform: `translateX(${x}px)` }}>
-        <AsciiText
-          text={frame}
-          asciiFontSize={8}
-          textFontSize={80}
-          planeBaseHeight={5}
-          enableWaves={false}
-        />
-      </div>
+    <div style={{position:'relative',width:'100%',height:'100%'}} onClick={handleClick}>
+      <code
+        ref={codeRef}
+        style={{
+          position:'absolute',
+          left:x,
+          top:0,
+          whiteSpace:'pre',
+          fontFamily:'monospace',
+          cursor:'pointer',
+          userSelect:'none'
+        }}
+      >
+        {art}
+      </code>
 
-      {vid && (
-        <div style={{ marginTop: '170px', display: 'flex', justifyContent: 'center' }}>
+      {videoId &&
+        <div style={{marginTop:'6rem',textAlign:'center'}}>
           <iframe
+            src={`https://www.youtube.com/embed/${videoId}`}
             width="560"
             height="315"
-            src={`https://www.youtube.com/embed/${vid}?autoplay=1`}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
             allowFullScreen
-            onLoad={resume}
+            title="cat-vid"
           />
-        </div>
-      )}
+        </div>}
     </div>
   );
 }
