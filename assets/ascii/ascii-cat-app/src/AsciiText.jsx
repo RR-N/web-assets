@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
-/* ─── GLSL shaders ─── */
+/* ── GLSL shaders ── */
 const vertexShader = `
 varying vec2 vUv;
 uniform float uTime;
@@ -26,24 +26,21 @@ uniform sampler2D uTexture;
 void main() {
   float t = uTime;
   vec2 pos = vUv;
-  float r = texture2D(uTexture, pos + cos(t * 2. - t + pos.x) * .01).r;
-  float g = texture2D(uTexture, pos + tan(t * .5 + pos.x - t) * .01).g;
-  float b = texture2D(uTexture, pos - cos(t * 2. + t + pos.y) * .01).b;
+  float r = texture2D(uTexture, pos + cos(t*2. - t + pos.x) * .01).r;
+  float g = texture2D(uTexture, pos + tan(t*.5 + pos.x - t) * .01).g;
+  float b = texture2D(uTexture, pos - cos(t*2. + t + pos.y) * .01).b;
   float a = texture2D(uTexture, pos).a;
   gl_FragColor = vec4(r, g, b, a);
 }`;
 
-/* ─── AsciiFilter ─── */
+/* ── AsciiFilter ── */
 class AsciiFilter {
-  constructor(
-    renderer,
-    {
-      fontSize   = 12,
-      fontFamily = "'Courier New', monospace",
-      invert     = true,
-      charset
-    } = {}
-  ) {
+  constructor(renderer, {
+    fontSize = 12,
+    fontFamily = "'Courier New', monospace",
+    invert = true,
+    charset
+  } = {}) {
     this.renderer = renderer;
 
     this.canvas = document.createElement('canvas');
@@ -67,13 +64,17 @@ class AsciiFilter {
     this.ctx.font = `${this.fontSize}px ${this.fontFamily}`;
 
     Object.assign(this.pre.style, {
-      margin: 0, padding: 0, lineHeight: '1em',
+      margin: 0,
+      padding: 0,
+      lineHeight: '1em',
+      mixBlendMode: 'normal',     // ← solid colour
+      color: '#000',              // ← black text
       fontFamily: this.fontFamily,
       fontSize: `${this.fontSize}px`,
       position: 'absolute',
-      left: '50%', top: '50%',
-      transform: 'translate(-50%,-50%)',
-      mixBlendMode: 'difference'
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%,-50%)'
     });
   }
 
@@ -85,31 +86,29 @@ class AsciiFilter {
     const h  = this.canvas.height;
     const gw = gl.clientWidth  || gl.width;
     const gh = gl.clientHeight || gl.height;
-    if (!w || !h || !gw || !gh) return;          // skip if either canvas is 0
+    if (!w || !h || !gw || !gh) return;
 
-    try {
-      this.ctx.drawImage(gl, 0, 0, w, h);
-    } catch { return; }                          // drawImage failed, skip frame
+    try { this.ctx.drawImage(gl, 0, 0, w, h); }
+    catch { return; }
 
     let data;
-    try {
-      data = this.ctx.getImageData(0, 0, w, h).data;
-    } catch { return; }                          // getImageData failed, skip frame
+    try { data = this.ctx.getImageData(0, 0, w, h).data; }
+    catch { return; }
 
-    let ascii = '';
+    let out = '';
     for (let i = 0, len = data.length; i < len; i += 4) {
       const idx  = i / 4;
       const col  = idx % w;
       const gray = (0.3 * data[i] + 0.6 * data[i+1] + 0.1 * data[i+2]) / 255;
       const cIdx = Math.floor((this.invert ? gray : 1 - gray) * (this.charset.length - 1));
-      ascii += this.charset[cIdx];
-      if (col === w - 1) ascii += '\n';
+      out += this.charset[cIdx];
+      if (col === w - 1) out += '\n';
     }
-    this.pre.textContent = ascii;
+    this.pre.textContent = out;
   }
 }
 
-/* ─── CanvasTxt ─── */
+/* ── CanvasTxt ── */
 class CanvasTxt {
   constructor(txt, { fontSize = 200, color = '#fdf9f3', fontFamily = 'IBM Plex Mono' } = {}) {
     this.txt = txt;
@@ -137,18 +136,16 @@ class CanvasTxt {
   get texture() { return this.canvas; }
 }
 
-/* ─── CanvAscii ─── */
+/* ── CanvAscii ── */
 class CanvAscii {
   constructor(params, el, w, h) {
     Object.assign(this, params);
     this.el = el;
 
-    /* scene */
     this.scene  = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, w / h, 1, 1000);
     this.camera.position.z = 30;
 
-    /* text texture */
     this.txt = new CanvasTxt(this.text, { fontSize: this.textFontSize, color: this.textColor });
     this.txt.render();
     this.tex = new THREE.CanvasTexture(this.txt.texture);
@@ -169,7 +166,6 @@ class CanvAscii {
     this.mesh = new THREE.Mesh(geo, mat);
     this.scene.add(this.mesh);
 
-    /* renderer + filter */
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
     this.renderer.setPixelRatio(1);
     this.filter = new AsciiFilter(this.renderer, { fontSize: this.asciiFontSize });
@@ -188,9 +184,8 @@ class CanvAscii {
   animate = () => {
     const loop = () => {
       this.frame = requestAnimationFrame(loop);
-
       const { width: w, height: h } = this.el.getBoundingClientRect();
-      if (!w || !h) return;                       // container collapsed
+      if (!w || !h) return;
 
       this.txt.render();
       this.tex.needsUpdate = true;
@@ -202,20 +197,20 @@ class CanvAscii {
   dispose() { cancelAnimationFrame(this.frame); }
 }
 
-/* ─── React wrapper ─── */
+/* ── React wrapper ── */
 export default function AsciiText({
-  text           = 'Hello!',
-  asciiFontSize  = 8,
-  textFontSize   = 200,
-  textColor      = '#fdf9f3',
+  text            = 'Hello!',
+  asciiFontSize   = 8,
+  textFontSize    = 200,
+  textColor       = '#fdf9f3',
   planeBaseHeight = 8,
-  enableWaves    = true
+  enableWaves     = true
 }) {
   const ref  = useRef(null);
   const inst = useRef(null);
 
   useEffect(() => {
-    const el   = ref.current;
+    const el = ref.current;
     const make = (w, h) => (
       inst.current = new CanvAscii(
         { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
