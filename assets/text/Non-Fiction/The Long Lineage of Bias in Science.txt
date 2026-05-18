@@ -1,0 +1,29 @@
+(From a lesson on Confirmation Bias.)
+
+As Born notes in his paper, academics have been aware of the insidiousness of these biases for a long time. Quoting an excerpt from Francis Bacon’s 1620 *Novum Organum*, Born notes:
+
+ “The human understanding when it has once adopted an opinion (either as being the received opinion or as being agreeable to itself) draws all things else to support and agree with it. And though there be a greater number and weight of instances to be found on the other side, yet these it either neglects and despises, or else by some distinction sets aside and rejects; in order that by this great and pernicious predetermination the authority of its former conclusions may remain inviolate.”
+
+Itself a foundational work in philosophy of science, *Novum Organum* outlines four “Idols of the Mind”, or cognitive errors to which humans have proven prone:
+
+**The Idols of the Tribe**
+The eponymous tribe Bacon references here is all of humankind, and thus the errors associated with their idols are those which he considers innate to human nature itself. This is so broad a the brush that most biases could well be argued to fit the label, so to quote the man himself: “[…] it is a false assertion that the sense of man is the measure of things […] human understanding is like a false mirror, which […] distorts and discolors the nature of things by mingling its own nature with it.”
+
+**The Idols of the Cave**
+Perhaps the cleanest and most direct analogue of what we now call bias, the Idols of the Cave were Bacon’s conceptualization of errors tied to propensities and predispositions rooted in our individual backgrounds — in personal experiences, such as those of our childhood and our education.
+
+**The Idols of the Marketplace**
+These are the errors tied to language and the undisciplined use of poorly curated vernacular — in neuroscience, you might think of words like “intelligence”, or “consciousness” as examples of how vague, ill-, or under-defined terminology could risk false or presumptive agreement and disagreement alike. The latter in particular has been the subject of much debate.
+
+**The Idols of the Theater**
+Here, “the Theater” describes the broader scientific canon within which we operate: the theories, models, and established wisdoms which frame our perspective. From phlogiston to phrenology, the history of science is filled to the brim with big ideas that misled scientists, but the amyloid hypothesis or the downplaying of astrocytes are particularly recent examples of times when canonical belief may have biased us towards incorrect conclusions.
+
+Though the Baconian Idols of the Mind represent a notable milestone in formalizing the threat certain innate tendencies of human cognition may present to scientific enterprise, such ideas are as old as science itself. Bacon himself quotes the ancient philosopher Heraclitus, whose lacking faith in the human ability to shed subjective perspective defined several of the surviving fragments of his intellectual work:
+
+:d>“Although the [logos] is common, the many live as if they had a private understanding.”
+:d>	(https://heraclitusfragments.com/files/en.html)
+:d>	(Note: “Logos” may be read to mean anything from “account” to “reason”, but is generally interpreted as a shared, truthful understanding that could be had.)
+
+Here, Heraclitus notes that, though truth is (in his view) universal and objective, most people are blinded by their own experience and the subjective perspective it shapes. His prescription differs significantly from Bacon’s — Heraclitus famously composed his teachings in the form of riddles so as to increase the odds of students arriving at true, objective insight — yet his is nonetheless a message echoed by Bacon and this unit alike.
+
+Beyond the base merits of Bacon’s *Novum Organum* and the Heraclitean fragments, these works provide us with a consistent through-line of thinkers that identified the apparent fallibility of human thought and the ease with which it blinds and self-deludes. In other words — the content of this unit is part of an ancient human struggle, and the bias-fighting tactics awaiting in future lessons are stratagems millenia in the making.
