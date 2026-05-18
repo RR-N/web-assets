@@ -1,0 +1,27 @@
+(From a lesson on Confirmation Bias.)
+
+Science is not the easiest discipline to penetrate, and it is not uncommon for researchers early in their career to feel like impostors stumbling blindly across a complex, esoteric canon that stands between them and the privileged praxis of scientific discovery. For this and other reasons, we are often more concerned with using the correct tool than we are with understanding what makes that tool the right one for a given job — we learn that p < .05 is the standard of statistical significance, and proceed to profess and ritualize it like the definitive difference between noise and eureka, and in time, we often lose sight of what that ever really meant to begin with. In the words of John R. Platt:
+
+:d>“Equipment, calculations, lectures become ends in themselves. How many of us write down our alternatives and crucial experiments every day, focusing on the exclusion of a hypothesis? We may write our scientific papers so that it looks as if we had steps 1, 2, and 3 in mind all along. But in between, we do busywork. We become "method-oriented" rather than "problem-oriented."”
+
+Questioning things is a key part of what makes us not just scientists, but good scientists, and that should extend to our statistical methodologies and epistemological groundings as well. Failing to do so risks settling into a procedural routine that may allow us to persist within our systems and institutions, but does so at the cost of meaningful inferential progress. This is one of many problems at fault for the relative stagnation of many specialties within neuroscience, and a partial driver of the “data-rich, theory-poor” characterization the field often suffers.
+
+This kind of trap exists in the case of many statistical measures commonly used in science, including NHST. The framework is valid and its reasoning is sound, but only if it is leveraged mindfully and does not substitute intelligent scientific thinking — that is, NHST answers the narrow statistical question of “Is there evidence against no effect?”, not the broader scientific question of “What specific biological claim does my experiment eliminate?”
+
+That distinction matters because statistical measures are narrower in scope than is suggested by the authority with which scientific institutions often endow them. All a p-value really tells you is the probability of observing data at least as extreme as observed, assuming the null hypothesis is true. It is neither the probability of the null hypothesis itself being true, nor the probability of an alternative hypothesis being correct. Misuse of p-values is so pervasive a problem in the sciences that in 2016, the American Statistical Association issued a public statement on the improper use of p-values and statistical significance measures:
+
+:d>“Good statistical practice, as an essential component of good scientific practice, emphasizes principles of good study design and conduct, a variety of numerical and graphical summaries of data, understanding of the phenomenon under study, interpretation of results in context, complete reporting and proper logical and quantitative understanding of what data summaries mean. No single index should substitute for scientific reasoning. ”
+
+In an associated press release, ASA president Jessica Utts stated the problem outright:
+
+:d>“Over time it appears the p-value has become a gatekeeper for whether work is publishable […] It also leads to practices […] that emphasize the search for small p-values over other statistical and scientific reasoning.”
+
+This is not a new problem either — in fact, the ASA statement echoes similar sentiments voiced 20 years earlier by Jacob Cohen (of Cohen’s d fame) in his 1994 essay *The Earth Is Round (p < .05)*, wherein even he notes the age of the issue in his opening paragraph:
+
+:d>“After 4 decades of severe criticism, the ritual of null hypothesis significance testing—mechanical dichotomous decisions around a sacred .05 criterion—still persists. This article reviews the problems with this practice, including its near-universal misinterpretation of p as the probability that Ho is false, the misinterpretation that its complement is the probability of successful replication, and the mistaken assumption that if one rejects Ho one thereby affirms the theory that led to the test.”
+
+Neuroscience is tragically able to lay claim to several particularly memorable instances in which statistical measures supplanted scientific thinking to disastrous effect:
+
+In 2009, Vul et al and Kriegeskorte et al highlighted that a circular analysis epidemic had resulted in inflated correlations in fMRI studies. That same year, Bennett et al published an infamous tongue-in-cheek experiment demonstrating that failing to correct for multiple comparisons resulted in statistically significant brain activity in dead salmon. Four years later, a review by Button et al indicted the field for its chronically underpowered studies, estimating a median statistical power between ~8% and 31%, and noting inflated false-discovery rates.
+
+The exact mechanism by which these scientific errors occur may vary, but at their heart lies the deeper problem of procedural gospel guiding research unconstrained by robust inferential investigation. NHST and p-values are not useless concepts, but that as scientists, we often forget that statistical measures exist downstream of reasoning and intellectual leveraging that grounds scientific claims.
