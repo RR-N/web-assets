@@ -1,0 +1,20 @@
+(From a lesson on Confirmation Bias.)
+
+It may be tempting to dismiss confirmation bias as the habit of an undisciplined or ideologically compromised mind, yet that is an oversimplification that not only blinds us to the endemic risk of confirmation bias in all human thought, but also grossly mis-characterizes the role this bias plays in human cognition.
+
+Most modern models of decision-making posit that the brain operates on a case-building basis, whereby it collects many small, noisy bits of evidence which, in time, accumulate into confidence in a particular choice. In computational and cognitive circles, these are referred to as drift diffusion models, and they have proven both efficient and biologically plausible, with potential artifacts of their underlying computations having been identified in monkeys. With this perspective in mind, confirmation bias essentially presents a case in which prior information — that being both the aforementioned bits and the cumulative commitment into which these grow — modulates the way later evidence is integrated into the broader decision-making calculus.
+
+We already know that this occurs even in the case of low-level perceptual tasks from the student classification experiments we mentioned earlier in this lesson, but Talluri et al undertook a formal investigation into this fact in 2018, when they designed separate perceptual and numerical tasks, each with discrimination and estimation judgments, and found that the choices subjects made during the task resulted in later evidence being weighted, yielding an effect that strongly resembled selective attention — basically, the commitments we make tell our brain what kind of future evidence to amplify.
+
+The key question, however, is when and how this happens: are prior and later bits of evidence encoded the same and merely used in different ways during the decision-making process, or are they encoded differently to begin? The distinction between these two options determines whether the information our brains downplay as a result of confirmation bias is lost from the get-go, or whether this is a distortion for which we could theoretically correct.
+
+In order to answer this question, Park et al had subjects undergo magnetoencephalography while they performed tasks similar to those used by Talluri et al, and then leveraged information theory to extract three key measures:
+- The amount of information the brain **registered when perceiving** stimuli.
+- The amount of information the brain **used when evaluating** those stimuli.
+- The overlap between those two, i.e. how much the former informs the latter.
+
+Comparing these three measures between confirmation bias trials and control trials, Park et al found that the brain encoded stimuli fine in both cases, but contributed less of that encoded information to the decision-making process in confirmation bias trials — suggesting that the brain registers belief-inconsistent evidence just fine, it just doesn’t use it. This is essential because it tells us that though confirmation bias is an inherent quirk of the way we make decisions, the knowledge that challenges our beliefs does exist in our brains and merely needs to be leveraged correctly.
+
+Fortunately for us, this is something we may be able to help in *some cases* by judiciously interrogating our beliefs, explicitly enumerating facts, and practicing rigorous vigilance — particularly when we feel confident in our beliefs, which research has shown to be a compounding factor in the functional elements of bias that we just described.
+
+As the existence of the seven remaining lessons in this unit may suggest, however, these methods are not foolproof: they are impossible to practice at the perceptual level, and do not nullify bias even in the best of non-perceptual cases.
