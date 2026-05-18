@@ -1,0 +1,21 @@
+(From a lesson on Confirmation Bias.)
+
+If the aim of the scientific enterprise is to arrive at a robust, consensus truth, then one might reasonably expect that distinct researchers given the same data should draw from it the same — or at least compatible — conclusions. Yet when Botvinik-Nezer et al tested just that in their 2020 Nature paper, they instead highlighted the extent of the problem researcher degrees of freedom pose in fMRI research.
+
+The experiment itself was relatively straightforward: 70 independent teams of experts were provided with the same dataset — consisting of fMRI data from 108 individuals recorded during a gambling decision task — and asked to test the same 9 pre-defined hypotheses about activity in specific brain regions.
+
+There was a catch, however: the authors did not specify how the teams should go about investigating the hypotheses, only that had 100 days to analyze the data as the same as they would any other in their laboratory, and that they would have to render a binary verdict (support/not support) for each hypothesis.
+
+Were they not so bleak, the results might read like caricature: Not only did **no two teams devise identical analytical workflows**, but across the nine hypotheses:
+- Only one presented with a high rate of significant findings across teams, 
+- Three hypotheses showed consistent non-significant findings,
+-  Five hypotheses had variable results (~21% to 37% of teams reporting significant results).
+- Even teams with highly correlated underlying statistical maps **nonetheless reported different outcomes**.
+
+Perhaps worst of all, when Botvinik-Nezer et al performed a meta-analysis of the statistical parametric maps underlying the hypothesis tests, they managed to establish a significant consensus for each hypothesis. In other words, the truth was there, it’d just been lost in the weeds of data analysis.
+
+What, then, was the source of all this disagreement? **Choices made during analysis**, with consequential factors including the software chosen, the the method used for multiple-comparisons correction, and the spatial smoothness.
+
+One might naturally expect that if data analysis features so many influential choices, researchers would be cognizant of that fact. However, Botvinik-Nezer et al thought to investigate this too by running prediction markets among the researchers that offered actual monetary payouts for accurate prediction of the fraction of teams that reported a significant result for each hypothesis. Across the board, researchers significantly overestimated positive findings. *Even those who had analyzed the data themselves* could not accurately anticipate how their peers would arrive at different answers from the same numbers.
+
+This kind of optimism is reflective of a basic assumption most of us make with regards to research: that published results reflect a stable feature of the data rather than artifacts of the authors analytical methodology. That assumption may hold, but unless a given study implemented mitigating measures of the kind Botvinik-Nezer et al suggest — preregistration, multiverse analysis, public sharing of unthresholded statistical maps, and image-based meta-analysis — trust in its results may be in question even if the authors act in good faith.
